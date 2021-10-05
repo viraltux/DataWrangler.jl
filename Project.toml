@@ -9,6 +9,7 @@ DataFramesMeta = "1313f7d8-7da2-5740-9ea0-a2ca25f37964"
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
 Optim = "429524aa-4258-5aef-a3af-852621145aeb"
 SQLite = "0aa819cd-b072-5ff4-a722-6bc24af294d9"
+Smoothers = "012d725f-b4dd-4916-8440-03955fc52575"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [compat]

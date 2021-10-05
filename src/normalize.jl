@@ -8,7 +8,7 @@ normalize!(x; ...
 function normalize!(x::AbstractArray{<:Union{Missing,T}};
                  type::String = "z-score") where T<:Real
     
-    @assert !(T <: Integer) "Vector with Integers cannot be updated in place, use `normalize(x)` instead"
+    @assert !(T <: Integer) " Type `$(typeof(x))` cannot be normalized in-place, use `normalize(x)` instead"
 
     @assert type ∈ ["z-score","min-max","softmax","sigmoid"]
 

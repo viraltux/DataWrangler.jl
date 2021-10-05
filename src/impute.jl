@@ -16,8 +16,7 @@ function impute!(x::AbstractVector{R},
     @assert length(x) == length(y) "x and y must have the same length"
 
     @assert type ∈ ["loess","uniform","normal"]
-    @assert !(T <: Integer) "Vector with Integers cannot be updated in place, use `impute(x)` instead"
-
+    # @assert !(T <: Integer) "Vector with Integers cannot be updated in place, use `impute(x)` instead"
 
     impxi = findall(ismissing,y)
     impx = x[impxi]
@@ -25,27 +24,29 @@ function impute!(x::AbstractVector{R},
     length(impx) == 0 && return nothing
     
     if type == "loess"
-        y[impxi] = loess(x,y; q)(impx)
+        loess_impx = loess(x,y; q)(impx)
+        y[impxi] = T <: Integer ? round.(T,loess_impx) : loess_impx
     end
 
     if type == "normal"
         n = length(x)
-        for (ixi,ix) in zip(impxi,impx)
+        rnd = randn(n)
+        for (i,(ixi,ix)) in enumerate(zip(impxi,impx))
             xv = @. abs(x-ix)
             qidx = sortperm(xv)[1:min(q,n)]
             μ = mean(skipmissing(y[qidx]))
             σ = std(skipmissing(y[qidx]))
-            y[ixi] = μ + randn(1)[1] * σ
+            y[ixi] = T <: Integer ? round(T, μ + rnd[i] * σ) : μ + rnd[i] * σ
         end
     end
 
     if type == "uniform"
         n = length(x)
-        for (ixi,ix) in zip(impxi,impx)
+        for (i,(ixi,ix)) in enumerate(zip(impxi,impx))
             xv = @. abs(x-ix)
             qidx = sortperm(xv)[1:min(q,n)]
             m,M = extrema(skipmissing(y[qidx]))
-            y[ixi] = m + rand(1)[1] * (M-m)
+            y[ixi] = rand(m:M)
         end
     end
 

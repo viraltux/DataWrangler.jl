@@ -1,5 +1,5 @@
 using Test
-using DataWrangler
+using DataWrangler: normality
 
 @testset "normality" begin
 
