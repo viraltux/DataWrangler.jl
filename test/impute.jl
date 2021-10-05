@@ -2,7 +2,6 @@ using Test
 using DataWrangler
 
 @testset "impute" begin
-    #TODO implement test & funcionality for Integer values
     
     x = 1:100;
     y = rand(100);
@@ -33,30 +32,30 @@ using DataWrangler
     ## normal
     x = sort(rand(100));
     y[rand(1:100,10)] .= missing;
-    impute!(x,y; type = "normal")
+    impute!(x,y; method = "normal")
     @test !any(ismissing,y) 
 
     y[rand(1:100,10)] .= missing;
-    impute!(y; type = "normal")
+    impute!(y; method = "normal")
     @test !any(ismissing,y) 
 
     yInt[rand(1:100,10)] .= missing;
-    impute!(yInt; type = "normal")
+    impute!(yInt; method = "normal")
     @test !any(ismissing,yInt) 
 
     
     ## uniform
     x = sort(rand(100));
     y[rand(1:100,10)] .= missing;
-    impute!(x,y; type = "uniform")
+    impute!(x,y; method = "uniform")
     @test !any(ismissing,y) 
 
     y[rand(1:100,10)] .= missing;
-    impute!(y; type = "uniform")
+    impute!(y; method = "uniform")
     @test !any(ismissing,y) 
 
     yInt[rand(1:100,10)] .= missing;
-    impute!(yInt; type = "uniform")
+    impute!(yInt; method = "uniform")
     @test !any(ismissing,yInt) 
 
     
@@ -74,23 +73,23 @@ using DataWrangler
     ## normal
     x = sort(rand(100));
     y[rand(1:100,10)] .= missing;
-    @test !any(ismissing,impute(x,y; type = "normal")) 
+    @test !any(ismissing,impute(x,y; method = "normal")) 
 
     y[rand(1:100,10)] .= missing;
-    @test !any(ismissing,impute(y; type = "normal")) 
+    @test !any(ismissing,impute(y; method = "normal")) 
 
     yInt[rand(1:100,10)] .= missing;
-    @test !any(ismissing,impute(yInt; type = "normal")) 
+    @test !any(ismissing,impute(yInt; method = "normal")) 
 
     ## uniform
     x = sort(rand(100));
     y[rand(1:100,10)] .= missing;
-    @test !any(ismissing,impute(x,y; type = "uniform")) 
+    @test !any(ismissing,impute(x,y; method = "uniform")) 
 
     y[rand(1:100,10)] .= missing;
-    @test !any(ismissing,impute(y; type = "uniform")) 
+    @test !any(ismissing,impute(y; method = "uniform")) 
 
     yInt[rand(1:100,10)] .= missing;
-    @test !any(ismissing,impute(yInt; type = "uniform")) 
+    @test !any(ismissing,impute(yInt; method = "uniform")) 
 
 end

@@ -1,20 +1,39 @@
 """
 Package: DataWrangler
 
-normalize(x; ...
-normalize!(x; ...
+normalize\\[!\\]([x]; method)
 
+Normalize values in vector `x` either in-place or returning vector `x` with the imputed values.
+
+# Parameters
+
+`x`: Vector of type Real with missing values to be imputed
+
+`method`: There are four valid values: "z-score", "min-max", "softmax", "sigmoid"
+
+# Description
+
+The normalization is applied ignoring any missing values in the Array, and it takes place in all the available dimensions of the array. If normalization is required in just some specific dimensions the function `mapslices` can be used to select those dimensions.
+
+# Example
+```julia
+x = [1.,2,3,4,5]
+normalize!(x; method = "min-max")
+
+println(x)
+[0.0, 0.25, 0.5, 0.75, 1.0]
+```
 """
 function normalize!(x::AbstractArray{<:Union{Missing,T}};
-                 type::String = "z-score") where T<:Real
+                 method::String = "z-score") where T<:Real
     
-    @assert !(T <: Integer) " Type `$(typeof(x))` cannot be normalized in-place, use `normalize(x)` instead"
+    @assert !(T <: Integer) " Method `$(typeof(x))` cannot be normalized in-place, use `normalize(x)` instead"
 
-    @assert type ∈ ["z-score","min-max","softmax","sigmoid"]
+    @assert method ∈ ["z-score","min-max","softmax","sigmoid"]
 
     smx = skipmissing(x)
 
-    if type == "z-score"
+    if method == "z-score"
         μ = mean(smx)
         σ = std(smx)
         for i in CartesianIndices(x)
@@ -22,7 +41,7 @@ function normalize!(x::AbstractArray{<:Union{Missing,T}};
         end
     end
 
-    if type == "min-max"
+    if method == "min-max"
         m,M = extrema(smx)
         Mm = M-m
         for i in CartesianIndices(x)
@@ -30,14 +49,14 @@ function normalize!(x::AbstractArray{<:Union{Missing,T}};
         end
     end
 
-    if type == "softmax"
+    if method == "softmax"
         Σe = sum(exp.(smx))
         for i in CartesianIndices(x)
             x[i] = exp(x[i]) / Σe
         end
     end
 
-    if type == "sigmoid"
+    if method == "sigmoid"
         for i in CartesianIndices(x)
             x[i] = 1/(1+exp(-x[i]))
         end
@@ -45,13 +64,18 @@ function normalize!(x::AbstractArray{<:Union{Missing,T}};
 
 end
 
+"""
+Package: DataWrangler
+
+Check 'normalize! for further information.
+"""
 function normalize(x::AbstractArray{<:Union{Missing,T}};
-                type::String = "z-score") where T<:Real    
+                method::String = "z-score") where T<:Real    
 
     P = any(ismissing,x) ? Union{Missing, Base.promote_op(/,T,T)} : Base.promote_op(/,T,T)
     cx = Array{P}(undef,size(x))
     cx[:] = x
-    normalize!(cx; type)
+    normalize!(cx; method)
     return cx
     
 end

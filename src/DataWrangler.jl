@@ -1,6 +1,6 @@
 module DataWrangler
 
-using DataFrames, DataFramesMeta, Distributions, Optim, SQLite, Smoothers, Statistics
+using Optim, Smoothers, Statistics
 
 include("impute.jl")
 export impute, impute!
@@ -13,3 +13,13 @@ include("normality.jl")
 export boxcox, iboxcox
 
 end
+
+"""
+Data transformations tools for analytics. The current available methods are:
+
+    boxcox, iboxcox:         Box-Cox and inverse Box-Cox transformation
+    normalize, normalize!:   Data normalization (z-score, min-max, softmax, sigmoid)
+    impute, impute!:         Data imputation (loess inter/extra-polation, random local density)
+    d, p:                    Finite difference and inverse difference
+"""
+DataWrangler

@@ -1,6 +1,6 @@
 
 """
-Package: Forecast
+Package: DataWrangler
 
     boxcox(x::Vector)
     boxcox(x::Vector, λ::Float64)  
