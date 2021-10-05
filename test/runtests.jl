@@ -8,8 +8,8 @@ const tests = [
     "impute",
     "normality",
     "normalize",
-    # "d",
-    # "p",
+    "d",
+    "p",
 ]
 
 printstyled("\nTest Summary List:\n", color=:underline)
