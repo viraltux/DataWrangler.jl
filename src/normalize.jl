@@ -3,7 +3,7 @@ Package: DataWrangler
 
 normalize\\[!\\]([x]; method)
 
-Normalize values in vector `x` either in-place or returning vector `x` with the imputed values.
+Normalize values in vector `x` either in-place or returning a copy of `x` with the imputed values
 
 # Parameters
 

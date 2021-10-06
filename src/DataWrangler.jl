@@ -5,6 +5,9 @@ using FFTW, Optim, Smoothers, Statistics
 include("impute.jl")
 export impute, impute!
 
+include("inlie.jl")
+export inlie, inlie!
+
 include("normalize.jl")
 export normalize, normalize!
 
@@ -22,8 +25,9 @@ end
 Data transformations tools for analytics. The current available methods are:
 
     boxcox, iboxcox:         Box-Cox and inverse Box-Cox transformation
-    normalize, normalize!:   Data normalization (z-score, min-max, softmax, sigmoid)
-    impute, impute!:         Data imputation (loess inter/extra-polation, random local density)
     d, p:                    Finite lagged difference and partial difference and its inverse
+    impute, impute!:         Data imputation (loess inter/extra-polation, random local density)
+    inlie, inlie!:           Removal of outliers
+    normalize, normalize!:   Data normalization (z-score, min-max, softmax, sigmoid)
 """
 DataWrangler

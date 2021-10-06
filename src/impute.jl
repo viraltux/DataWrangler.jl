@@ -1,18 +1,18 @@
 """
 Package: DataWrangler
 
-impute\\[!\\]([x], y; method, q)
+impute\\[!\\]([x], y; method = "normal", q)
 
-Impute missing values in vector `y` either in-place or returning vector `y` with the imputed values.
+Impute missing values in vector `y` either in-place or returning a copy of `y` with the imputed values.
 
 # Parameters
 `x`: Optional vector containing the support for `y` (no missing value allowed)
 
 `y`: Vector of type Real with missing values to be imputed
-`method`: There are three valid values:
+`method`: This parameter can take three valid values and defaults to "normal":
 - "loess": Runs loess with a window size of `q` on the dataset and interpolate/extrapolate results on the `missing` values. 
-- "uniform": Random imputation using an Uniform empirical distribution based on the size of `q`.
 - "normal": Random imputation using a Normal empirical distribution based on the size of `q`.
+- "uniform": Random imputation using an Uniform empirical distribution based on the size of `q`.
 
 `q`: Number of closest vector values to the imputation to be considered, it defaults to 3*length(y)÷4).
 
@@ -35,9 +35,9 @@ impute!(x,y)
 ```
 """
 function impute!(y::AbstractVector{<:Union{Missing,T}};
-                 method::String = "loess", q = 3*length(y)÷4) where  {T<:Real}
+                 method::String = "normal", q = 3*length(y)÷4) where  {T<:Real}
 
-    impute!(T.(1:length(y)),y; method, q)
+    impute!(T.(1:length(y)), y; method, q)
 
 end
 
@@ -56,21 +56,26 @@ function impute!(x::AbstractVector{R},
     impx = x[impxi]
 
     length(impx) == 0 && return nothing
+
+    loq = loess(x,y; q)
+    loqy = loq(x)
     
     if method == "loess"
-        loess_impx = loess(x,y; q)(impx)
+        loess_impx = loq(impx)
         y[impxi] = T <: Integer ? round.(T,loess_impx) : loess_impx
     end
 
     if method == "normal"
         n = length(x)
         rnd = randn(n)
-        for (i,(ixi,ix)) in enumerate(zip(impxi,impx))
+        for (i,(ix,ixi)) in enumerate(zip(impx,impxi))
             xv = @. abs(x-ix)
             qidx = sortperm(xv)[1:min(q,n)]
-            μ = mean(skipmissing(y[qidx]))
-            σ = std(skipmissing(y[qidx]))
-            y[ixi] = T <: Integer ? round(T, μ + rnd[i] * σ) : μ + rnd[i] * σ
+
+            smy = skipmissing(y[qidx].-loqy[qidx])
+            μ = mean(smy)
+            σ = std(smy)
+            y[ixi] = T <: Integer ? round(T, μ + rnd[i] * σ + loqy[ixi]) : μ + rnd[i] * σ + loqy[ixi]
         end
     end
 
@@ -79,8 +84,9 @@ function impute!(x::AbstractVector{R},
         for (i,(ixi,ix)) in enumerate(zip(impxi,impx))
             xv = @. abs(x-ix)
             qidx = sortperm(xv)[1:min(q,n)]
-            m,M = extrema(skipmissing(y[qidx]))
-            y[ixi] = rand(m:M)
+            
+            m,M = extrema(skipmissing(y[qidx].-loqy[qidx]))
+            y[ixi] = m+rand(1)[1]*(M-m) + loqy[ixi]
         end
     end
 
