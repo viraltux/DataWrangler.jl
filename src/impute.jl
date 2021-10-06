@@ -1,7 +1,7 @@
 """
 Package: DataWrangler
 
-impute\\[!\\]([x], y; method = "normal", q)
+impute\\[!\\]([x], y; method = "loess", q)
 
 Impute missing values in vector `y` either in-place or returning a copy of `y` with the imputed values.
 
@@ -9,7 +9,7 @@ Impute missing values in vector `y` either in-place or returning a copy of `y` w
 `x`: Optional vector containing the support for `y` (no missing value allowed)
 
 `y`: Vector of type Real with missing values to be imputed
-`method`: This parameter can take three valid values and defaults to "normal":
+`method`: This parameter can take three valid values and defaults to "loess":
 - "loess": Runs loess with a window size of `q` on the dataset and interpolate/extrapolate results on the `missing` values. 
 - "normal": Random imputation using a Normal empirical distribution based on the size of `q`.
 - "uniform": Random imputation using an Uniform empirical distribution based on the size of `q`.
@@ -35,7 +35,7 @@ impute!(x,y)
 ```
 """
 function impute!(y::AbstractVector{<:Union{Missing,T}};
-                 method::String = "normal", q = 3*length(y)÷4) where  {T<:Real}
+                 method::String = "loess", q = 3*length(y)÷4) where  {T<:Real}
 
     impute!(T.(1:length(y)), y; method, q)
 
