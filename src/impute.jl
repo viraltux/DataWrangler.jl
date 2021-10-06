@@ -86,7 +86,7 @@ function impute!(x::AbstractVector{R},
             qidx = sortperm(xv)[1:min(q,n)]
             
             m,M = extrema(skipmissing(y[qidx].-loqy[qidx]))
-            y[ixi] = m+rand(1)[1]*(M-m) + loqy[ixi]
+            y[ixi] = T <: Integer ? round(T,m+rand(1)[1]*(M-m)+loqy[ixi]) : m+rand(1)[1]*(M-m)+loqy[ixi]
         end
     end
 
