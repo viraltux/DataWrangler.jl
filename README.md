@@ -12,6 +12,24 @@ This package provides the following functionality to wrangle data:
 - inlie, inlie!:           Removal of outliers 
 - normalize, normalize!:   Data normalization (z-score, min-max, softmax, sigmoid)
 
+## Example
+
+```julia
+using Plots
+n = 1000
+x = sort(rand(n))*2*pi;
+y = Array{Union{Missing,Float64}}(undef,n);
+y[:] = sin.(x).+randn(n)/10;
+mid = vcat(100:150,300:350,600:650,950:1000);
+y[mid] .= missing;
+scatter(x,y; label="data")
+
+ipy = impute(x,y; method = "normal")
+scatter!(x[mid],ipy[mid]; label = "imputed 'normal'")
+
+ipy = impute(x,y)
+scatter!(x[mid],ipy[mid]; label = "imputed 'loess'")
+```
 <img src="./docs/src/images/impute.png">
 
 [![Build Status](https://github.com/viraltux/DataWrangler.jl/workflows/CI/badge.svg)](https://github.com/viraltux/DataWrangler.jl/actions)
