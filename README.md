@@ -6,7 +6,7 @@ Data wrangling refers to a number of processes designed to clean and transform d
 
 This package provides the following functionality to wrangle data:
 
-- boxcox, iboxcox:         Box-Cox and inverse Box-Cox transformation
+- boxcox, iboxcox:         Box-Cox and inverse Box-Cox transformation and estimation
 - d, p:                    Finite lagged difference and partial difference and its inverse
 - impute, impute!:         Data imputation (loess inter/extra-polation, random local density)
 - inlie, inlie!:           Removal of outliers 
