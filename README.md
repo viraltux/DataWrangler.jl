@@ -4,7 +4,7 @@ Data wrangling refers to a number of processes designed to clean and transform d
 
 This package provides the following functionality to wrangle data:
 
-- Box-Cox and inverse Box-Cox transformation and estimation: `boxcox`, `iboxcox`                   
+- Box-Cox and inverse Box-Cox transformation and estimation: `boxcox`, `iboxcox`
 - Data imputation (loess inter/extra-polation, random local density): `impute`, `impute!`
 - Data normalization (z-score, min-max, softmax, sigmoid): `normalize`, `normalize!`
 - Finite lagged difference and partial difference and its inverse: `d`, `p`
@@ -23,10 +23,10 @@ y[mid] .= missing;
 scatter(x,y; label="data")
 
 ipy = impute(x,y; method = "normal")
-scatter!(x[mid],ipy[mid]; label = "imputed 'normal'", color=:yellow)
+scatter!(x[mid],ipy[mid]; label = "imputed 'normal'", color=:white)
 
 ipy = impute(x,y)
-scatter!(x[mid],ipy[mid]; label = "imputed 'loess'", color=:black)
+scatter!(x[mid],ipy[mid]; label = "imputed 'loess'", color=:black, markersize = 2)
 ```
 <img src="./docs/src/images/impute.png">
 
