@@ -1,15 +1,13 @@
 # DataWrangler
 
-> :warning: Under development
-
 Data wrangling refers to a number of processes designed to clean and transform data into into analytics ready datasets.
 
 This package provides the following functionality to wrangle data:
 
-- boxcox, iboxcox:         Box-Cox and inverse Box-Cox transformation and estimation
-- d, p:                    Finite lagged difference and partial difference and its inverse
-- impute, impute!:         Data imputation (loess inter/extra-polation, random local density)
-- normalize, normalize!:   Data normalization (z-score, min-max, softmax, sigmoid)
+- Box-Cox and inverse Box-Cox transformation and estimation: `boxcox`, `iboxcox`                   
+- Data imputation (loess inter/extra-polation, random local density): `impute`, `impute!`
+- Data normalization (z-score, min-max, softmax, sigmoid): `normalize`, `normalize!`
+- Finite lagged difference and partial difference and its inverse: `d`, `p`
 
 ## Example
 
