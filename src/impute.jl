@@ -6,15 +6,13 @@ impute\\[!\\]([x], y; method = "loess", q)
 Impute missing values in vector `y` either in-place or returning a copy of `y` with the imputed values.
 
 # Parameters
-`x`: Optional vector containing the support for `y` (no missing value allowed)
-
-`y`: Vector of type Real with missing values to be imputed
-`method`: This parameter can take three valid values and defaults to "loess":
-- "loess": Runs loess with a window size of `q` on the dataset and interpolate/extrapolate results on the `missing` values. 
-- "normal": Random imputation using a Normal empirical distribution based on the size of `q`.
-- "uniform": Random imputation using an Uniform empirical distribution based on the size of `q`.
-
-`q`: Number of closest vector values to the imputation to be considered, it defaults to 3*length(y)÷4).
+- `x`: Optional vector containing the support for `y` (no missing value allowed)
+- `y`: Vector of type Real with missing values to be imputed
+- `method`: This parameter can take three valid values and defaults to "loess":
+    - "loess": Runs loess with a window size of `q` on the dataset and interpolate/extrapolate results on the `missing` values. 
+    - "normal": Random imputation using a Normal empirical distribution based on the size of `q`.
+    - "uniform": Random imputation using an Uniform empirical distribution based on the size of `q`.
+- `q`: Number of closest vector values to the imputation to be considered, it defaults to 3*length(y)÷4).
 
 # Description
 

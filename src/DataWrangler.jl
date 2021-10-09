@@ -5,6 +5,12 @@ using FFTW, Optim, Smoothers, Statistics
 include("impute.jl")
 export impute, impute!
 
+include("tsout.jl")
+export tsout, tsout!
+
+include("outlie.jl")
+export outlie, outlie!
+
 include("normalize.jl")
 export normalize, normalize!
 
@@ -25,5 +31,7 @@ Data transformations tools for analytics. The current available methods are:
     d, p:                    Finite lagged difference and partial difference and its inverse
     impute, impute!:         Data imputation (loess inter/extra-polation, random local density)
     normalize, normalize!:   Data normalization (z-score, min-max, softmax, sigmoid)
+    tsout, tsout!:           Outlier detection and removal in time series
+
 """
 DataWrangler
