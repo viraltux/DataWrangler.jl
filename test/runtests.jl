@@ -5,10 +5,11 @@ using Logging
 
 const tests = [
     "boxcox",
+    "d",
     "impute",
     "normality",
     "normalize",
-    "d",
+    "outlie",
     "p",
 ]
 
