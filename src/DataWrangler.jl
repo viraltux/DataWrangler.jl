@@ -5,9 +5,6 @@ using FFTW, Optim, Smoothers, Statistics
 include("impute.jl")
 export impute, impute!
 
-include("tsout.jl")
-export tsout, tsout!
-
 include("outlie.jl")
 export outlie, outlie!
 
